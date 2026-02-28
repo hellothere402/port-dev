@@ -13,13 +13,11 @@
     --ink: #1a1612;
     --mid: #4a4035;
     --amber: #c8882a;
-    --amber-light: #e8b86d;
     --rule: #c4b89a;
     --paper: #ede8de;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -31,748 +29,476 @@
     cursor: none;
   }
 
-  /* Custom cursor */
+  /* ── Cursor ── */
   .cursor {
     width: 10px; height: 10px;
-    background: var(--ink);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, background 0.2s, width 0.2s, height 0.2s;
+    background: var(--ink); border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width .2s, height .2s, background .2s;
     mix-blend-mode: multiply;
   }
-  .cursor.hover {
-    width: 30px; height: 30px;
-    background: var(--amber);
-    opacity: 0.6;
-  }
+  .cursor.hover { width: 30px; height: 30px; background: var(--amber); opacity: .6; }
 
-  /* Texture overlay */
+  /* ── Paper texture ── */
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 9998;
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: .03; pointer-events: none; z-index: 9998;
   }
 
-  /* ─── NAV ─────────────────────────────────────────── */
+  /* ══ NAV ══ */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 0 clamp(2rem, 6vw, 6rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
-    background: var(--cream);
-    border-bottom: 1px solid var(--rule);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    padding: 0 clamp(2rem,6vw,6rem);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px; background: var(--cream); border-bottom: 1px solid var(--rule);
   }
-
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-    transition: color 0.3s;
+    font-size: 1.3rem; font-weight: 300; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
   }
   .nav-logo span { color: var(--amber); }
-
-  .nav-links {
-    display: flex;
-    gap: 3rem;
-    list-style: none;
-  }
-
+  .nav-links { display: flex; gap: 3rem; list-style: none; }
   .nav-links a {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--mid);
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 2px;
-    transition: color 0.3s;
+    font-family: 'Spectral SC', serif; font-size: .7rem;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none;
+    position: relative; padding-bottom: 2px; transition: color .3s;
   }
   .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 0; height: 1px;
-    background: var(--amber);
-    transition: width 0.35s ease;
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--amber); transition: width .35s;
   }
   .nav-links a:hover { color: var(--ink); }
-  .nav-links a:hover::after { width: 100%; }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
   .nav-links a.active { color: var(--ink); }
-  .nav-links a.active::after { width: 100%; }
 
-  /* ─── PAGES ──────────────────────────────────────── */
-  .page {
-    display: none;
-    min-height: 100vh;
-    padding-top: 72px;
-    animation: fadeIn 0.5s ease;
-  }
+  /* ══ PAGES ══ */
+  .page { display: none; min-height: 100vh; padding-top: 72px; animation: fadeIn .5s ease; }
   .page.active { display: block; }
-
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ─── HOME PAGE ──────────────────────────────────── */
+  /* ══════════════════════════════════════
+     HOME
+  ══════════════════════════════════════ */
   .home-hero {
     min-height: calc(100vh - 72px);
-    padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 6rem);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+    padding: clamp(4rem,10vh,8rem) clamp(2rem,6vw,6rem);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    position: relative; overflow: hidden;
   }
-
   .home-hero::before {
-    content: '';
-    position: absolute;
-    top: -20%; right: -10%;
-    width: 55%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(200,136,42,0.07) 0%, transparent 70%);
+    content: ''; position: absolute; top: -20%; right: -10%;
+    width: 55%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,136,42,.07) 0%, transparent 70%);
     pointer-events: none;
   }
-
   .hero-eyebrow {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    font-family: 'Spectral SC', serif; font-size: .65rem;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--amber);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
   }
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 2.5rem;
-    height: 1px;
-    background: var(--amber);
-  }
-
+  .hero-eyebrow::before { content: ''; display: block; width: 2.5rem; height: 1px; background: var(--amber); }
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    font-weight: 300;
-    line-height: 1.0;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 2rem;
+    font-size: clamp(3.5rem,7vw,6rem); font-weight: 300; line-height: 1;
+    letter-spacing: -.01em; color: var(--ink); margin-bottom: 2rem;
   }
-  .hero-title em {
-    font-style: italic;
-    color: var(--amber);
-  }
-
-  .hero-desc {
-    font-size: 1rem;
-    color: var(--mid);
-    line-height: 1.8;
-    max-width: 38ch;
-    margin-bottom: 3rem;
-  }
+  .hero-title em { font-style: italic; color: var(--amber); }
+  .hero-desc { font-size: 1rem; color: var(--mid); line-height: 1.8; max-width: 38ch; margin-bottom: 3rem; }
 
   .btn-primary {
-    display: inline-block;
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--cream);
-    background: var(--ink);
-    padding: 1rem 2.5rem;
-    text-decoration: none;
-    border: 1px solid var(--ink);
-    transition: background 0.3s, color 0.3s;
+    display: inline-block; font-family: 'Spectral SC', serif;
+    font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--cream); background: var(--ink); padding: 1rem 2.5rem;
+    text-decoration: none; border: 1px solid var(--ink); transition: background .3s, border-color .3s;
   }
-  .btn-primary:hover {
-    background: var(--amber);
-    border-color: var(--amber);
-    color: var(--cream);
-  }
-
+  .btn-primary:hover { background: var(--amber); border-color: var(--amber); }
   .btn-secondary {
-    display: inline-block;
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--ink);
-    background: transparent;
-    padding: 1rem 2.5rem;
-    text-decoration: none;
-    border: 1px solid var(--ink);
-    margin-left: 1rem;
-    transition: background 0.3s, color 0.3s;
+    display: inline-block; font-family: 'Spectral SC', serif;
+    font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--ink); background: transparent; padding: 1rem 2.5rem;
+    text-decoration: none; border: 1px solid var(--ink); margin-left: 1rem;
+    transition: background .3s, color .3s;
   }
-  .btn-secondary:hover {
-    background: var(--ink);
-    color: var(--cream);
-  }
+  .btn-secondary:hover { background: var(--ink); color: var(--cream); }
 
-  /* Decorative right side of hero */
-  .hero-visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
+  /* Hero frame */
+  .hero-visual { display: flex; align-items: center; justify-content: center; }
   .hero-frame {
-    width: 100%;
-    max-width: 440px;
-    aspect-ratio: 4/5;
-    border: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-    background: var(--paper);
+    width: 100%; max-width: 440px; aspect-ratio: 4/5;
+    border: 1px solid var(--rule); position: relative; overflow: hidden; background: var(--paper);
   }
-
   .hero-frame::before {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border: 1px solid var(--rule);
-    z-index: 1;
-    pointer-events: none;
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid var(--rule); z-index: 2; pointer-events: none;
   }
 
-  .hero-frame-inner {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    padding: 2rem;
+  /*
+  ╔═══════════════════════════════════════════╗
+  ║  HOME HERO IMAGE                           ║
+  ║  File: assets/home-hero.jpg               ║
+  ║  Size: 880×1100px portrait                ║
+  ╚═══════════════════════════════════════════╝
+  */
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center; z-index: 1;
+    transition: transform .6s ease; display: block;
   }
-
+  .hero-frame:hover .hero-img { transform: scale(1.03); }
+  .hero-img-fallback {
+    position: absolute; inset: 0; z-index: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem;
+  }
+  .sketch-animation { width: 180px; height: 180px; position: relative; }
+  .sketch-circle { position: absolute; border: 1.5px solid var(--ink); border-radius: 50%; animation: spin-slow 12s linear infinite; }
+  .sketch-circle:nth-child(1) { inset: 0; opacity: .15; }
+  .sketch-circle:nth-child(2) { inset: 20px; opacity: .2; animation-direction: reverse; animation-duration: 18s; }
+  .sketch-circle:nth-child(3) { inset: 40px; opacity: .3; }
+  .sketch-figure { position: absolute; inset: 60px; border: 2px solid var(--amber); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; opacity: .6; }
+  .sketch-dot { position: absolute; width: 8px; height: 8px; background: var(--amber); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .hero-monogram {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 8rem;
-    font-weight: 300;
-    color: var(--ink);
-    line-height: 1;
-    opacity: 0.12;
-    letter-spacing: -0.05em;
-    position: absolute;
-    bottom: 1.5rem;
-    right: 2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 8rem; font-weight: 300;
+    color: var(--ink); line-height: 1; opacity: .12; letter-spacing: -.05em;
+    position: absolute; bottom: 1.5rem; right: 2rem; z-index: 3; pointer-events: none;
   }
 
-  .hero-svg {
-    width: 80%;
-    opacity: 0.7;
-  }
-
-  /* Decorative animation sketch */
-  .sketch-animation {
-    width: 180px;
-    height: 180px;
-    position: relative;
-  }
-  .sketch-circle {
-    position: absolute;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    animation: spin-slow 12s linear infinite;
-  }
-  .sketch-circle:nth-child(1) { inset: 0; opacity: 0.15; }
-  .sketch-circle:nth-child(2) { inset: 20px; opacity: 0.2; animation-direction: reverse; animation-duration: 18s; }
-  .sketch-circle:nth-child(3) { inset: 40px; opacity: 0.3; }
-  .sketch-figure {
-    position: absolute;
-    inset: 60px;
-    border: 2px solid var(--amber);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    opacity: 0.6;
-  }
-  .sketch-dot {
-    position: absolute;
-    width: 8px; height: 8px;
-    background: var(--amber);
-    border-radius: 50%;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .sketch-lines {
-    position: absolute;
-    inset: 0;
-  }
-  @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  .sketch-dash {
-    position: absolute;
-    width: 1px;
-    height: 40px;
-    background: var(--rule);
-    top: 50%; left: 50%;
-    transform-origin: bottom center;
-    animation: spin-slow 6s linear infinite;
-  }
-  .sketch-dash:nth-child(2) { animation-delay: -2s; opacity: 0.5; }
-  .sketch-dash:nth-child(3) { animation-delay: -4s; opacity: 0.3; }
-
-  /* ─── HOME ABOUT STRIP ───────────────────────────── */
   .home-about {
-    padding: clamp(4rem, 8vh, 6rem) clamp(2rem, 6vw, 6rem);
+    padding: clamp(4rem,8vh,6rem) clamp(2rem,6vw,6rem);
     border-top: 1px solid var(--rule);
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 4rem;
-    align-items: start;
+    display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start;
   }
-
   .section-label {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    padding-top: 0.4rem;
+    font-family: 'Spectral SC', serif; font-size: .65rem;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--amber); padding-top: .4rem;
   }
-
   .about-body h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 300;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    color: var(--ink);
+    font-size: clamp(2rem,4vw,3rem); font-weight: 300; line-height: 1.2; margin-bottom: 1.5rem;
   }
-  .about-body p {
-    color: var(--mid);
-    max-width: 60ch;
-    margin-bottom: 1rem;
-  }
+  .about-body p { color: var(--mid); max-width: 60ch; margin-bottom: 1rem; }
 
-  /* ─── HOME DISCIPLINES ───────────────────────────── */
   .home-disciplines {
-    padding: clamp(3rem, 6vh, 5rem) clamp(2rem, 6vw, 6rem);
+    padding: clamp(3rem,6vh,5rem) clamp(2rem,6vw,6rem);
     border-top: 1px solid var(--rule);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
   }
-
   .discipline-card {
-    background: var(--paper);
-    padding: 2.5rem 2rem;
-    border: 1px solid var(--rule);
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
+    background: var(--paper); padding: 2.5rem 2rem;
+    border: 1px solid var(--rule); transition: background .3s;
+    position: relative; overflow: hidden;
   }
   .discipline-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--amber);
-    transition: height 0.4s ease;
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 0; background: var(--amber); transition: height .4s;
   }
   .discipline-card:hover { background: #ede5d5; }
   .discipline-card:hover::before { height: 100%; }
-
   .discipline-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem;
-    font-weight: 300;
-    color: var(--rule);
-    line-height: 1;
-    margin-bottom: 1rem;
-    display: block;
+    font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300;
+    color: var(--rule); line-height: 1; margin-bottom: 1rem; display: block;
   }
-  .discipline-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 0.75rem;
-    color: var(--ink);
-  }
-  .discipline-card p {
-    font-size: 0.9rem;
-    color: var(--mid);
-    line-height: 1.7;
-  }
+  .discipline-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: .75rem; }
+  .discipline-card p { font-size: .9rem; color: var(--mid); line-height: 1.7; }
 
-  /* ─── PORTFOLIO PAGE ─────────────────────────────── */
+  .ornament {
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem 0; gap: 1rem; color: var(--rule);
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+  }
+  .ornament::before, .ornament::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  /* ══════════════════════════════════════
+     PORTFOLIO — CATEGORY SELECTION
+  ══════════════════════════════════════ */
   .portfolio-header {
-    padding: clamp(3rem, 8vh, 6rem) clamp(2rem, 6vw, 6rem) 3rem;
+    padding: clamp(3rem,8vh,6rem) clamp(2rem,6vw,6rem) 3rem;
     border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 2rem;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
   }
   .portfolio-header h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 300;
-    line-height: 1;
-    color: var(--ink);
+    font-size: clamp(2.5rem,6vw,5rem); font-weight: 300; line-height: 1;
   }
-  .portfolio-header p {
-    max-width: 36ch;
-    color: var(--mid);
-    font-size: 0.95rem;
-    text-align: right;
+  .portfolio-header p { max-width: 36ch; color: var(--mid); font-size: .95rem; text-align: right; }
+
+  .portfolio-categories {
+    padding: 3rem clamp(2rem,6vw,6rem) 5rem;
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem;
   }
 
-  .portfolio-grid {
-    padding: 3rem clamp(2rem, 6vw, 6rem);
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1.5rem;
+  .cat-card {
+    border: 1px solid var(--rule); background: var(--paper); overflow: hidden;
+    position: relative; cursor: none; transition: transform .3s, box-shadow .3s;
+    display: flex; flex-direction: column;
+  }
+  .cat-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(26,22,18,.13); }
+
+  .cat-thumb { aspect-ratio: 16/9; overflow: hidden; position: relative; background: var(--ink); }
+
+  /*
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  CATEGORY THUMBNAIL IMAGES — replace each src below         ║
+  ║                                                              ║
+  ║  cat-personal.jpg    → Personal Work cover   1200×675px     ║
+  ║  cat-animations.jpg  → Animations cover      1200×675px     ║
+  ║  cat-characters.jpg  → Characters cover      1200×675px     ║
+  ║  cat-technical.jpg   → Technical cover       1200×675px     ║
+  ║                                                              ║
+  ║  All files go in: assets/drawings/                           ║
+  ╚══════════════════════════════════════════════════════════════╝
+  */
+  .cat-thumb-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    transition: transform .5s ease; display: block; position: absolute; inset: 0;
+  }
+  .cat-card:hover .cat-thumb-img { transform: scale(1.05); }
+  .cat-thumb-fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cat-thumb-number {
+    font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 300;
+    color: rgba(255,255,255,.07); letter-spacing: -.03em; user-select: none;
+  }
+  .cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,22,18,.65) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .cat-overlay-label {
+    position: absolute; bottom: 1.25rem; left: 1.5rem;
+    font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5);
+  }
+  .cat-corner {
+    position: absolute; bottom: 1rem; right: 1rem;
+    width: 36px; height: 36px;
+    border-bottom: 2px solid var(--amber); border-right: 2px solid var(--amber);
+    opacity: 0; transform: translate(4px,4px); transition: opacity .3s, transform .3s;
+  }
+  .cat-card:hover .cat-corner { opacity: .9; transform: translate(0,0); }
+  .cat-info { padding: 1.5rem 1.75rem 2rem; }
+  .cat-count {
+    font-family: 'Spectral SC', serif; font-size: .55rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: .4rem;
+  }
+  .cat-info h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400;
+    color: var(--ink); margin-bottom: .4rem; line-height: 1.1;
+  }
+  .cat-info p { font-size: .85rem; color: var(--mid); line-height: 1.65; }
+  .cat-arrow {
+    display: inline-block; margin-top: 1rem;
+    font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--amber);
+    transition: letter-spacing .3s;
+  }
+  .cat-card:hover .cat-arrow { letter-spacing: .3em; }
+
+  /* ══════════════════════════════════════
+     PORTFOLIO — GALLERY VIEW
+  ══════════════════════════════════════ */
+  #gallery-view { display: none; }
+  #gallery-view.active { display: block; animation: fadeIn .4s ease; }
+
+  .gallery-header {
+    padding: clamp(2rem,5vh,4rem) clamp(2rem,6vw,6rem) 2rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; gap: 2rem;
+  }
+  .gallery-back {
+    font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--mid); background: none; border: none; cursor: none;
+    display: flex; align-items: center; gap: .6rem; transition: color .3s; padding: 0;
+  }
+  .gallery-back::before { content: '←'; font-size: .9rem; }
+  .gallery-back:hover { color: var(--amber); }
+  .gallery-title-wrap { flex: 1; }
+  .gallery-eyebrow {
+    font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .25em; text-transform: uppercase; color: var(--amber); margin-bottom: .3rem;
+  }
+  .gallery-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem,5vw,3.5rem); font-weight: 300; line-height: 1;
   }
 
-  .portfolio-item {
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    overflow: hidden;
-    position: relative;
-    cursor: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Gallery grid */
+  .gallery-grid {
+    padding: 2.5rem clamp(2rem,6vw,6rem) 5rem;
+    display: grid; grid-template-columns: repeat(12,1fr); gap: 1.25rem;
   }
-  .portfolio-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(26,22,18,0.12);
+  .gallery-item {
+    border: 1px solid var(--rule); background: var(--paper);
+    overflow: hidden; position: relative; cursor: none;
+    transition: transform .3s, box-shadow .3s;
   }
-  .portfolio-item:nth-child(1) { grid-column: span 7; }
-  .portfolio-item:nth-child(2) { grid-column: span 5; }
-  .portfolio-item:nth-child(3) { grid-column: span 4; }
-  .portfolio-item:nth-child(4) { grid-column: span 4; }
-  .portfolio-item:nth-child(5) { grid-column: span 4; }
-  .portfolio-item:nth-child(6) { grid-column: span 6; }
-  .portfolio-item:nth-child(7) { grid-column: span 6; }
+  .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(26,22,18,.12); }
 
-  .portfolio-thumb {
-    aspect-ratio: 16/10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
+  /* Asymmetric grid rhythm */
+  .gallery-item:nth-child(1) { grid-column: span 8; }
+  .gallery-item:nth-child(2) { grid-column: span 4; }
+  .gallery-item:nth-child(3) { grid-column: span 4; }
+  .gallery-item:nth-child(4) { grid-column: span 4; }
+  .gallery-item:nth-child(5) { grid-column: span 4; }
+  .gallery-item:nth-child(6) { grid-column: span 6; }
+  .gallery-item:nth-child(7) { grid-column: span 6; }
+  .gallery-item:nth-child(8) { grid-column: span 12; }
+
+  .gallery-thumb {
+    aspect-ratio: 16/10; overflow: hidden; position: relative;
   }
-  .portfolio-item:nth-child(1) .portfolio-thumb,
-  .portfolio-item:nth-child(6) .portfolio-thumb { aspect-ratio: 16/9; }
+  .gallery-item:nth-child(1) .gallery-thumb,
+  .gallery-item:nth-child(8) .gallery-thumb { aspect-ratio: 3/1; }
 
-  .portfolio-thumb-bg {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.5s ease;
-  }
-  .portfolio-item:hover .portfolio-thumb-bg { transform: scale(1.04); }
-
-  .thumb-1 { background: linear-gradient(135deg, #2a1f0e 0%, #4a3520 50%, #1a1208 100%); }
-  .thumb-2 { background: linear-gradient(135deg, #0e1a2a 0%, #1a2f4a 50%, #0a1220 100%); }
-  .thumb-3 { background: linear-gradient(135deg, #1a0e2a 0%, #2f1a4a 50%, #120a20 100%); }
-  .thumb-4 { background: linear-gradient(135deg, #0e2a1a 0%, #1a4a2f 50%, #0a2012 100%); }
-  .thumb-5 { background: linear-gradient(135deg, #2a1a0e 0%, #4a2f1a 50%, #200e0a 100%); }
-  .thumb-6 { background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #0e0e0e 100%); }
-  .thumb-7 { background: linear-gradient(135deg, #1a0e0e 0%, #2a1a1a 50%, #100808 100%); }
-
-  .thumb-label {
-    position: relative;
+  /*
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  GALLERY ITEM IMAGES — replace each src below               ║
+  ║                                                              ║
+  ║  Large items  (1st & 8th in each gallery): 1600×685px       ║
+  ║  Medium items (6th & 7th):                 1200×750px       ║
+  ║  Small items  (2nd–5th):                   800×500px        ║
+  ║                                                              ║
+  ║  All files go in: assets/drawings/                           ║
+  ╚══════════════════════════════════════════════════════════════╝
+  */
+  .gallery-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    position: absolute; inset: 0; display: block; transition: transform .5s ease;
     z-index: 1;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.15);
-    letter-spacing: 0.05em;
-    text-align: center;
-    padding: 1rem;
-    user-select: none;
-    font-style: italic;
   }
+  .gallery-item:hover .gallery-img { transform: scale(1.04); }
+  .gallery-thumb-fallback {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    z-index: 0;
+  }
+  .gallery-fallback-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300;
+    opacity: .1; user-select: none;
+  }
+  /* Fallback gradient colours */
+  .gthumb-1 { background: linear-gradient(135deg,#2a1f0e,#4a3520); }
+  .gthumb-2 { background: linear-gradient(135deg,#0e1a2a,#1a2f4a); }
+  .gthumb-3 { background: linear-gradient(135deg,#1a0e2a,#2f1a4a); }
+  .gthumb-4 { background: linear-gradient(135deg,#0e2a1a,#1a4a2f); }
+  .gthumb-5 { background: linear-gradient(135deg,#2a1a0e,#4a2f1a); }
+  .gthumb-6 { background: linear-gradient(135deg,#1a1a1a,#2a2a2a); }
+  .gthumb-7 { background: linear-gradient(135deg,#1a0e0e,#2a1a1a); }
+  .gthumb-8 { background: linear-gradient(135deg,#0e1a0e,#1a2f1a); }
 
-  .thumb-corner {
-    position: absolute;
-    bottom: 1rem; right: 1rem;
-    width: 40px; height: 40px;
-    border-bottom: 2px solid var(--amber);
-    border-right: 2px solid var(--amber);
-    opacity: 0;
-    transform: translate(4px, 4px);
-    transition: opacity 0.3s, transform 0.3s;
+  .gallery-info { padding: 1rem 1.25rem 1.5rem; }
+  .gallery-cat-tag {
+    font-family: 'Spectral SC', serif; font-size: .55rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: .3rem;
   }
-  .portfolio-item:hover .thumb-corner {
-    opacity: 0.8;
-    transform: translate(0, 0);
+  .gallery-info h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400;
+    color: var(--ink); margin-bottom: .3rem;
   }
+  .gallery-info p { font-size: .82rem; color: var(--mid); line-height: 1.6; }
+  .gallery-corner {
+    position: absolute; bottom: .75rem; right: .75rem;
+    width: 32px; height: 32px;
+    border-bottom: 2px solid var(--amber); border-right: 2px solid var(--amber);
+    opacity: 0; transform: translate(4px,4px); transition: opacity .3s, transform .3s;
+    pointer-events: none;
+  }
+  .gallery-item:hover .gallery-corner { opacity: .8; transform: translate(0,0); }
 
-  .portfolio-info {
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-  .portfolio-category {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.55rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 0.4rem;
-  }
-  .portfolio-info h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 0.4rem;
-  }
-  .portfolio-info p {
-    font-size: 0.82rem;
-    color: var(--mid);
-    line-height: 1.6;
-  }
-
-  /* ─── CONTACT PAGE ───────────────────────────────── */
-  .contact-wrap {
-    min-height: calc(100vh - 72px);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
+  /* ══════════════════════════════════════
+     CONTACT
+  ══════════════════════════════════════ */
+  .contact-wrap { min-height: calc(100vh - 72px); display: grid; grid-template-columns: 1fr 1fr; }
   .contact-left {
-    padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 6rem);
+    padding: clamp(4rem,10vh,8rem) clamp(2rem,6vw,6rem);
     border-right: 1px solid var(--rule);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: flex; flex-direction: column; justify-content: space-between;
   }
-
   .contact-left h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 300;
-    line-height: 1.0;
-    color: var(--ink);
-    margin-bottom: 2rem;
+    font-size: clamp(3rem,6vw,5.5rem); font-weight: 300; line-height: 1;
+    color: var(--ink); margin-bottom: 2rem;
   }
   .contact-left h1 em { font-style: italic; color: var(--amber); }
-
-  .contact-left p {
-    color: var(--mid);
-    max-width: 40ch;
-    margin-bottom: 3rem;
-    font-size: 0.95rem;
-  }
-
-  .contact-details {
-    margin-top: auto;
-  }
+  .contact-left > div > p { color: var(--mid); max-width: 40ch; margin-bottom: 3rem; font-size: .95rem; }
+  .contact-details { margin-top: auto; }
   .contact-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--rule);
+    display: flex; flex-direction: column; gap: .25rem;
+    margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule);
   }
   .contact-detail:last-child { border-bottom: none; }
   .detail-label {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--amber);
+    font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .25em; text-transform: uppercase; color: var(--amber);
   }
   .detail-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    color: var(--ink);
-    text-decoration: none;
-    transition: color 0.2s;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+    color: var(--ink); text-decoration: none; transition: color .2s;
   }
   .detail-value:hover { color: var(--amber); }
-
-  /* Contact Form */
-  .contact-right {
-    padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 6rem);
-    background: var(--paper);
-  }
-
+  .contact-right { padding: clamp(4rem,10vh,8rem) clamp(2rem,6vw,6rem); background: var(--paper); }
   .form-heading {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    font-family: 'Spectral SC', serif; font-size: .65rem;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--mid);
+    margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem;
   }
-  .form-heading::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
-
-  .form-group {
-    margin-bottom: 2rem;
-    position: relative;
-  }
+  .form-heading::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .form-group { margin-bottom: 2rem; }
   .form-group label {
-    display: block;
-    font-family: 'Spectral SC', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 0.6rem;
+    display: block; font-family: 'Spectral SC', serif; font-size: .6rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--mid); margin-bottom: .6rem;
   }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--rule);
-    padding: 0.6rem 0;
-    font-family: 'Libre Baskerville', serif;
-    font-size: 0.95rem;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.3s;
-    appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid var(--rule); padding: .6rem 0;
+    font-family: 'Libre Baskerville', serif; font-size: .95rem; color: var(--ink);
+    outline: none; transition: border-color .3s; appearance: none; border-radius: 0;
   }
   .form-group select {
     cursor: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a4035' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    padding-right: 2rem;
+    background-repeat: no-repeat; background-position: right .5rem center; padding-right: 2rem;
   }
-  .form-group textarea {
-    resize: none;
-    height: 120px;
-    line-height: 1.8;
-  }
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    border-bottom-color: var(--amber);
-  }
-  .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: var(--rule);
-    font-style: italic;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .form-submit {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-
+  .form-group textarea { resize: none; height: 120px; line-height: 1.8; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-bottom-color: var(--amber); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--rule); font-style: italic; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .form-submit { display: flex; align-items: center; gap: 2rem; margin-top: 1rem; }
   .btn-submit {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--cream);
-    background: var(--ink);
-    padding: 1rem 2.5rem;
-    border: 1px solid var(--ink);
-    cursor: none;
-    transition: background 0.3s, border-color 0.3s;
+    font-family: 'Spectral SC', serif; font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--cream); background: var(--ink); padding: 1rem 2.5rem;
+    border: 1px solid var(--ink); cursor: none; transition: background .3s, border-color .3s;
   }
-  .btn-submit:hover {
-    background: var(--amber);
-    border-color: var(--amber);
-  }
-  .form-note {
-    font-size: 0.78rem;
-    color: var(--rule);
-    font-style: italic;
-  }
+  .btn-submit:hover { background: var(--amber); border-color: var(--amber); }
+  .form-note { font-size: .78rem; color: var(--rule); font-style: italic; }
 
-  /* ─── FOOTER ─────────────────────────────────────── */
+  /* ── Footer ── */
   footer {
-    padding: 2rem clamp(2rem, 6vw, 6rem);
-    border-top: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 2rem clamp(2rem,6vw,6rem); border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  footer p {
-    font-family: 'Spectral SC', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--rule);
-    text-transform: uppercase;
-  }
-  .footer-rule {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.9rem;
-    color: var(--rule);
-    font-style: italic;
-  }
+  footer p { font-family: 'Spectral SC', serif; font-size: .6rem; letter-spacing: .15em; color: var(--rule); text-transform: uppercase; }
+  .footer-rule { font-family: 'Cormorant Garamond', serif; font-size: .9rem; color: var(--rule); font-style: italic; }
 
-  /* ─── DECORATIVE ─────────────────────────────────── */
-  .ornament {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 0;
-    gap: 1rem;
-    color: var(--rule);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-  }
-  .ornament::before,
-  .ornament::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
-
-  /* ─── RESPONSIVE ─────────────────────────────────── */
+  /* ── Responsive ── */
   @media (max-width: 900px) {
     .home-hero { grid-template-columns: 1fr; }
     .hero-visual { display: none; }
     .home-about { grid-template-columns: 1fr; gap: 1.5rem; }
     .home-disciplines { grid-template-columns: 1fr; }
-    .portfolio-grid { grid-template-columns: 1fr 1fr; }
-    .portfolio-item { grid-column: span 1 !important; }
+    .portfolio-categories { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item { grid-column: span 1 !important; }
     .contact-wrap { grid-template-columns: 1fr; }
     .contact-left { border-right: none; border-bottom: 1px solid var(--rule); }
     .portfolio-header { flex-direction: column; align-items: flex-start; }
@@ -785,36 +511,49 @@
 
 <div class="cursor" id="cursor"></div>
 
-<!-- ─── NAV ─────────────────────────────────────────── -->
+<!-- ══ NAV ══ -->
 <nav>
-  <a href="#" class="nav-logo" onclick="showPage('home'); return false;">Archie <span>Bruce</span></a>
+  <a href="#" class="nav-logo" onclick="showPage('home');return false;">Archie <span>Bruce</span></a>
   <ul class="nav-links">
-    <li><a href="#" onclick="showPage('home'); return false;" id="nav-home" class="active">Home</a></li>
-    <li><a href="#" onclick="showPage('portfolio'); return false;" id="nav-portfolio">Portfolio</a></li>
-    <li><a href="#" onclick="showPage('contact'); return false;" id="nav-contact">Contact</a></li>
+    <li><a href="#" onclick="showPage('home');return false;" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('portfolio');return false;" id="nav-portfolio">Portfolio</a></li>
+    <li><a href="#" onclick="showPage('contact');return false;" id="nav-contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- ─── HOME PAGE ──────────────────────────────────── -->
+<!-- ══════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════ -->
 <div class="page active" id="page-home">
 
   <section class="home-hero">
     <div class="hero-content">
       <p class="hero-eyebrow">Animator &amp; Developer</p>
-      <h1 class="hero-title">
-        Drawing<br>
-        worlds<br>
-        <em>into life.</em>
-      </h1>
-      <p class="hero-desc">
-        Traditional 2D animation rooted in the golden-era principles — built alongside modern technology to tell stories that move, surprise, and endure.
-      </p>
-      <a href="#" onclick="showPage('portfolio'); return false;" class="btn-primary">View Work</a>
-      <a href="#" onclick="showPage('contact'); return false;" class="btn-secondary">Get in Touch</a>
+      <h1 class="hero-title">Drawing<br>worlds<br><em>into life.</em></h1>
+      <p class="hero-desc">Traditional 2D animation rooted in golden-era principles — built alongside modern technology to tell stories that move, surprise, and endure.</p>
+      <a href="#" onclick="showPage('portfolio');return false;" class="btn-primary">View Work</a>
+      <a href="#" onclick="showPage('contact');return false;" class="btn-secondary">Get in Touch</a>
     </div>
+
     <div class="hero-visual">
       <div class="hero-frame">
-        <div class="hero-frame-inner">
+
+        <!--
+        ╔═══════════════════════════════════════════════════╗
+        ║  HOME HERO IMAGE                                   ║
+        ║  ↓ Replace src with your image                    ║
+        ║  File: assets/home-hero.jpg                       ║
+        ║  Size: 880×1100px portrait                        ║
+        ╚═══════════════════════════════════════════════════╝
+        -->
+        <img
+          src="assets/home-hero.jpg"
+          alt="Archie Bruce — Animator"
+          class="hero-img"
+          onerror="this.style.display='none';"
+        >
+
+        <div class="hero-img-fallback">
           <div class="sketch-animation">
             <div class="sketch-circle"></div>
             <div class="sketch-circle"></div>
@@ -822,9 +561,7 @@
             <div class="sketch-figure"></div>
             <div class="sketch-dot"></div>
           </div>
-          <div style="text-align:center; margin-top: 1rem;">
-            <p style="font-family:'Spectral SC',serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--rule); text-transform:uppercase;">Frame by Frame</p>
-          </div>
+          <p style="font-family:'Spectral SC',serif;font-size:.55rem;letter-spacing:.2em;color:var(--rule);text-transform:uppercase;">Frame by Frame</p>
         </div>
         <span class="hero-monogram">AB</span>
       </div>
@@ -837,12 +574,8 @@
     <p class="section-label">About</p>
     <div class="about-body">
       <h2>Craft, code, and the pursuit of the extraordinary frame.</h2>
-      <p>
-        I'm Archie Bruce — an animator and computing student at the University of Sydney. My work lives at the intersection of hand-drawn tradition and contemporary technology: the warmth of pencil-on-paper and the precision of code.
-      </p>
-      <p>
-        Inspired by the discipline of Disney's Nine Old Men and the raw creative spirit of Robert Henri's <em>Art Spirit</em>, I believe every frame should be made with intention — whether it's drawn by hand or rendered by machine.
-      </p>
+      <p>I'm Archie Bruce — an animator and computing student at the University of Sydney. My work lives at the intersection of hand-drawn tradition and contemporary technology: the warmth of pencil-on-paper and the precision of code.</p>
+      <p>Inspired by the discipline of Disney's Nine Old Men and the raw creative spirit of Robert Henri's <em>Art Spirit</em>, I believe every frame should be made with intention — whether it's drawn by hand or rendered by machine.</p>
     </div>
   </section>
 
@@ -870,133 +603,636 @@
     <p>All rights reserved</p>
   </footer>
 
-</div>
+</div><!-- /page-home -->
 
-<!-- ─── PORTFOLIO PAGE ─────────────────────────────── -->
+
+<!-- ══════════════════════════════════════
+     PORTFOLIO PAGE
+══════════════════════════════════════ -->
 <div class="page" id="page-portfolio">
 
-  <div class="portfolio-header">
-    <h1>Selected<br>Work</h1>
-    <p>A curated selection of animation, technology, and creative projects — each made with care for the craft.</p>
-  </div>
+  <!-- ── CATEGORY SELECTION ── -->
+  <div id="categories-view">
 
-  <div class="portfolio-grid">
+    <div class="portfolio-header">
+      <h1>Selected<br>Work</h1>
+      <p>Four disciplines, one pursuit — choose a category to explore the work within.</p>
+    </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-1"></div>
-        <div class="thumb-label">ToonCrafter</div>
-        <div class="thumb-corner"></div>
+    <div class="portfolio-categories">
+
+      <!-- CARD: Personal Work -->
+      <div class="cat-card" onclick="showGallery('personal')">
+        <div class="cat-thumb">
+          <!--
+          ╔══════════════════════════════════════════╗
+          ║  PERSONAL WORK — CATEGORY THUMBNAIL      ║
+          ║  ↓ Replace src with your cover image     ║
+          ║  File: assets/drawings/cat-personal.jpg  ║
+          ║  Size: 1200×675px                        ║
+          ╚══════════════════════════════════════════╝
+          -->
+          <img src="assets/drawings/cat-personal.jpg" alt="Personal Work" class="cat-thumb-img" onerror="this.style.display='none';">
+          <div class="cat-thumb-fallback gthumb-1"><span class="cat-thumb-number">01</span></div>
+          <div class="cat-overlay"></div>
+          <span class="cat-overlay-label">Explore</span>
+          <div class="cat-corner"></div>
+        </div>
+        <div class="cat-info">
+          <p class="cat-count">Category 01</p>
+          <h2>Personal Work</h2>
+          <p>Sketchbooks, experiments, and independent studies — the unfiltered work made purely for the love of drawing.</p>
+          <span class="cat-arrow">View all →</span>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">AI Animation Tool</p>
-        <h3>ToonCrafter — Interpolation System</h3>
-        <p>An AI-driven inbetweening tool that generates smooth transitions between hand-drawn keyframes, reducing production time while preserving an authentic drawn quality.</p>
+
+      <!-- CARD: Animations -->
+      <div class="cat-card" onclick="showGallery('animations')">
+        <div class="cat-thumb">
+          <!--
+          ╔═══════════════════════════════════════════╗
+          ║  ANIMATIONS — CATEGORY THUMBNAIL          ║
+          ║  ↓ Replace src with your cover image      ║
+          ║  File: assets/drawings/cat-animations.jpg ║
+          ║  Size: 1200×675px                         ║
+          ╚═══════════════════════════════════════════╝
+          -->
+          <img src="assets/drawings/cat-animations.jpg" alt="Animations" class="cat-thumb-img" onerror="this.style.display='none';">
+          <div class="cat-thumb-fallback gthumb-2"><span class="cat-thumb-number">02</span></div>
+          <div class="cat-overlay"></div>
+          <span class="cat-overlay-label">Explore</span>
+          <div class="cat-corner"></div>
+        </div>
+        <div class="cat-info">
+          <p class="cat-count">Category 02</p>
+          <h2>Animations</h2>
+          <p>Completed and in-progress animated works — walk cycles, short films, motion studies, and inbetweening experiments.</p>
+          <span class="cat-arrow">View all →</span>
+        </div>
+      </div>
+
+      <!-- CARD: Character Designs -->
+      <div class="cat-card" onclick="showGallery('characters')">
+        <div class="cat-thumb">
+          <!--
+          ╔═══════════════════════════════════════════╗
+          ║  CHARACTER DESIGNS — CATEGORY THUMBNAIL   ║
+          ║  ↓ Replace src with your cover image      ║
+          ║  File: assets/drawings/cat-characters.jpg ║
+          ║  Size: 1200×675px                         ║
+          ╚═══════════════════════════════════════════╝
+          -->
+          <img src="assets/drawings/cat-characters.jpg" alt="Character Designs" class="cat-thumb-img" onerror="this.style.display='none';">
+          <div class="cat-thumb-fallback gthumb-3"><span class="cat-thumb-number">03</span></div>
+          <div class="cat-overlay"></div>
+          <span class="cat-overlay-label">Explore</span>
+          <div class="cat-corner"></div>
+        </div>
+        <div class="cat-info">
+          <p class="cat-count">Category 03</p>
+          <h2>Character Designs</h2>
+          <p>Model sheets, turnarounds, expression libraries, and character studies built from observation and imagination.</p>
+          <span class="cat-arrow">View all →</span>
+        </div>
+      </div>
+
+      <!-- CARD: Technical Projects -->
+      <div class="cat-card" onclick="showGallery('technical')">
+        <div class="cat-thumb">
+          <!--
+          ╔══════════════════════════════════════════╗
+          ║  TECHNICAL — CATEGORY THUMBNAIL          ║
+          ║  ↓ Replace src with your cover image     ║
+          ║  File: assets/drawings/cat-technical.jpg ║
+          ║  Size: 1200×675px                        ║
+          ╚══════════════════════════════════════════╝
+          -->
+          <img src="assets/drawings/cat-technical.jpg" alt="Technical Projects" class="cat-thumb-img" onerror="this.style.display='none';">
+          <div class="cat-thumb-fallback gthumb-5"><span class="cat-thumb-number">04</span></div>
+          <div class="cat-overlay"></div>
+          <span class="cat-overlay-label">Explore</span>
+          <div class="cat-corner"></div>
+        </div>
+        <div class="cat-info">
+          <p class="cat-count">Category 04</p>
+          <h2>Technical Projects</h2>
+          <p>ToonCrafter, the robotic drawing rig, pipeline tools, and AI-assisted workflows — where engineering meets animation.</p>
+          <span class="cat-arrow">View all →</span>
+        </div>
+      </div>
+
+    </div><!-- /portfolio-categories -->
+
+    <footer>
+      <p>© 2025 Archie Bruce</p>
+      <span class="footer-rule">Sydney, Australia</span>
+      <p>All rights reserved</p>
+    </footer>
+
+  </div><!-- /categories-view -->
+
+
+  <!-- ══════════════════════════════════════
+       GALLERY VIEW (injected when cat clicked)
+  ══════════════════════════════════════ -->
+  <div id="gallery-view">
+
+    <div class="gallery-header">
+      <button class="gallery-back" onclick="showCategories()">Back</button>
+      <div class="gallery-title-wrap">
+        <p class="gallery-eyebrow" id="gallery-eyebrow">Category</p>
+        <h1 class="gallery-title" id="gallery-title">Work</h1>
       </div>
     </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-2"></div>
-        <div class="thumb-label">Robotic Rig</div>
-        <div class="thumb-corner"></div>
-      </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Engineering</p>
-        <h3>Robotic Drawing System</h3>
-        <p>A custom-built robotic drawing apparatus that translates digital paths into physical pencil lines — bridging digital precision with analogue texture.</p>
-      </div>
-    </div>
+    <!-- ══ PERSONAL WORK GALLERY ══ -->
+    <div class="gallery-grid" id="gallery-personal" style="display:none;">
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-3"></div>
-        <div class="thumb-label">Character</div>
-        <div class="thumb-corner"></div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-01.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/monodog.png" alt="Sketchbook Studies" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-1"><span class="gallery-fallback-num">01</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Sketchbook Studies</h3>
+          <p>Daily observational drawings — figures, environments, and objects drawn from life.</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Character Design</p>
-        <h3>Character Development Series</h3>
-        <p>Explorations in traditional character construction — model sheets, turnarounds, and expression libraries built from life studies.</p>
-      </div>
-    </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-4"></div>
-        <div class="thumb-label">Short Film</div>
-        <div class="thumb-corner"></div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-02.jpg — Small — 800×500px -->
+          <img src="assets/drawings/dog4.jpg" alt="Life Drawing" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-2"><span class="gallery-fallback-num">02</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Life Drawing</h3>
+          <p>Figure studies focused on gesture, weight, and proportional accuracy.</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Animation</p>
-        <h3>Short Film — Untitled</h3>
-        <p>A hand-drawn short currently in development. 2D pencil animation with minimal colour, exploring memory and place.</p>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-03.jpg — Small — 800×500px -->
+          <img src="assets/drawings/el.jpg" alt="Environmental Concepts" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-3"><span class="gallery-fallback-num">03</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Environmental Concepts</h3>
+          <p>Landscape and interior concept sketches exploring light, atmosphere, and mood.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-5"></div>
-        <div class="thumb-label">Storyboard</div>
-        <div class="thumb-corner"></div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-04.jpg — Small — 800×500px -->
+          <img src="assets/drawings/monk.jpg" alt="Ink Studies" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-4"><span class="gallery-fallback-num">04</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Ink Studies</h3>
+          <p>Experimental ink work exploring line weight, texture, and mark-making.</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Direction</p>
-        <h3>Storyboard Studies</h3>
-        <p>Shot composition and staging practice informed by the Fleischer Bros., Chuck Jones, and contemporary indie filmmakers.</p>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-05.jpg — Small — 800×500px -->
+          <img src="assets/drawings/base.jpg" alt="Composition Studies" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-5"><span class="gallery-fallback-num">05</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Composition Studies</h3>
+          <p>Framing and compositional thumbnails inspired by film and classic illustration.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-6"></div>
-        <div class="thumb-label">Study</div>
-        <div class="thumb-corner"></div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-06.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/cat.jpg" alt="Gesture Collection" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-6"><span class="gallery-fallback-num">06</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Gesture Collection</h3>
+          <p>Rapid 30–60 second gesture drawings capturing the essence of movement.</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Motion Study</p>
-        <h3>Walk Cycle Variations</h3>
-        <p>A series of walk cycles exploring weight, emotion, and character through the fundamental grammar of animation.</p>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: personal-07.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/tig.jpg" alt="Perspective Practice" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-7"><span class="gallery-fallback-num">07</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Personal Work</p>
+          <h3>Perspective Practice</h3>
+          <p>Architectural and environmental drawings focusing on 1, 2, and 3-point perspective.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-bg thumb-7"></div>
-        <div class="thumb-label">Pipeline</div>
-        <div class="thumb-corner"></div>
+      
+
+    </div><!-- /gallery-personal -->
+
+
+    <!-- ══ ANIMATIONS GALLERY ══ -->
+    <div class="gallery-grid" id="gallery-animations" style="display:none;">
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-01.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/anim-01.jpg" alt="Short Film — Untitled" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-2"><span class="gallery-fallback-num">01</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Animation</p>
+          <h3>Short Film — Untitled</h3>
+          <p>Hand-drawn 2D short in development. Pencil animation with minimal colour, exploring memory and place.</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <p class="portfolio-category">Software</p>
-        <h3>Studio Pipeline Tools</h3>
-        <p>A suite of Python-based production management and asset-tracking tools designed for lean independent animation studios.</p>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <video
+            class="gallery-img"
+            src="assets/videos/Dog_cycle_walk.mp4"
+            muted
+            loop
+            playsinline
+            onmouseenter="this.play()"
+            onmouseleave="this.pause(); this.currentTime=0;"
+          ></video>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Motion Study</p>
+          <h3>Walk Cycle Variations</h3>
+          <p>A series of walk cycles exploring weight, emotion, and character through the fundamental grammar of animation.</p>
+        </div>
       </div>
-    </div>
 
-  </div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-03.jpg — Small — 800×500px -->
+          <img src="assets/drawings/anim-03.jpg" alt="ToonCrafter Demo" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-1"><span class="gallery-fallback-num">03</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">AI Animation</p>
+          <h3>ToonCrafter Interpolation Demo</h3>
+          <p>AI-generated inbetweens from hand-drawn keyframes using the ToonCrafter system.</p>
+        </div>
+      </div>
 
-  <div class="ornament">✦</div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-04.jpg — Small — 800×500px -->
+          <img src="assets/drawings/anim-04.jpg" alt="Bounce & Weight Study" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-4"><span class="gallery-fallback-num">04</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Motion Study</p>
+          <h3>Bounce &amp; Weight Study</h3>
+          <p>Classical animation exercises — bouncing ball, pendulum, and overlapping action.</p>
+        </div>
+      </div>
 
-  <footer>
-    <p>© 2025 Archie Bruce</p>
-    <span class="footer-rule">Sydney, Australia</span>
-    <p>All rights reserved</p>
-  </footer>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-05.jpg — Small — 800×500px -->
+          <img src="assets/drawings/anim-05.jpg" alt="Run Cycle" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-5"><span class="gallery-fallback-num">05</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Motion Study</p>
+          <h3>Run Cycle</h3>
+          <p>A full run cycle demonstrating anticipation, timing, and follow-through across 12 frames.</p>
+        </div>
+      </div>
 
-</div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-06.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/anim-06.jpg" alt="Lip Sync Test" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-6"><span class="gallery-fallback-num">06</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Animation</p>
+          <h3>Lip Sync Test</h3>
+          <p>A phoneme chart and lip sync exercise applied to a short dialogue clip.</p>
+        </div>
+      </div>
 
-<!-- ─── CONTACT PAGE ──────────────────────────────── -->
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-07.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/anim-07.jpg" alt="Scene Composition" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-7"><span class="gallery-fallback-num">07</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Animation</p>
+          <h3>Scene Composition</h3>
+          <p>A multi-character scene exploring staging, screen direction, and background integration.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: anim-08.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/anim-08.jpg" alt="Storyboard Animatic" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-8"><span class="gallery-fallback-num">08</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Direction</p>
+          <h3>Storyboard Animatic</h3>
+          <p>A timed storyboard sequence edited to music, demonstrating shot composition and narrative pacing.</p>
+        </div>
+      </div>
+
+    </div><!-- /gallery-animations -->
+
+
+    <!-- ══ CHARACTER DESIGNS GALLERY ══ -->
+    <div class="gallery-grid" id="gallery-characters" style="display:none;">
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-01.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/bird1.jpg" alt="Lead Character — Full Model Sheet" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-3"><span class="gallery-fallback-num">01</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Lead Character — Full Model Sheet</h3>
+          <p>Complete turnaround with front, side, and back views, plus proportion guides and size chart.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-02.jpg — Small — 800×500px -->
+          <img src="assets/drawings/bird2.jpg" alt="Expression Library" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-4"><span class="gallery-fallback-num">02</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Expression Library</h3>
+          <p>A full range of facial expressions — neutral, happy, sad, angry, surprised — mapped across the character's face.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-03.jpg — Small — 800×500px -->
+          <img src="assets/drawings/bird3.jpg" alt="Secondary Character" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-1"><span class="gallery-fallback-num">03</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Secondary Character</h3>
+          <p>Supporting character design with distinct silhouette, contrasting proportions to the lead.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-04.jpg — Small — 800×500px -->
+          <img src="assets/drawings/dogp1.jpg" alt="Costume Variations" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-5"><span class="gallery-fallback-num">04</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Costume Variations</h3>
+          <p>Wardrobe exploration for the lead character across different settings and time periods.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-05.jpg — Small — 800×500px -->
+          <img src="assets/drawings/dogp2.jpg" alt="Hand & Foot Studies" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-2"><span class="gallery-fallback-num">05</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Hand &amp; Foot Studies</h3>
+          <p>Detailed studies of the character's extremities — essential reference for animators.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-06.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/ds1.jpg" alt="Character Lineup" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-6"><span class="gallery-fallback-num">06</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Character Lineup</h3>
+          <p>All characters shown at comparative scale, establishing visual hierarchy within the ensemble.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-07.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/randy.jpg" alt="Animal Character" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-7"><span class="gallery-fallback-num">07</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Animal Character</h3>
+          <p>Anthropomorphic animal character design, balancing realistic anatomy with appealing stylisation.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: char-08.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/dark.jpg" alt="Early Development Sketches" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-8"><span class="gallery-fallback-num">08</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Character Design</p>
+          <h3>Early Development Sketches</h3>
+          <p>The raw exploration stage — dozens of rough ideas before refining down to the final design.</p>
+        </div>
+      </div>
+
+    </div><!-- /gallery-characters -->
+
+
+    <!-- ══ TECHNICAL PROJECTS GALLERY ══ -->
+    <div class="gallery-grid" id="gallery-technical" style="display:none;">
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-01.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/tech-01.jpg" alt="ToonCrafter — AI Interpolation System" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-5"><span class="gallery-fallback-num">01</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">AI Tool</p>
+          <h3>ToonCrafter — Interpolation System</h3>
+          <p>An AI-driven inbetweening tool generating smooth transitions between hand-drawn keyframes.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-02.jpg — Small — 800×500px -->
+          <img src="assets/drawings/tech-02.jpg" alt="Robotic Drawing System" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-2"><span class="gallery-fallback-num">02</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Engineering</p>
+          <h3>Robotic Drawing System</h3>
+          <p>A custom-built robotic rig that translates digital paths into physical pencil lines.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-03.jpg — Small — 800×500px -->
+          <img src="assets/drawings/tech-03.jpg" alt="Samsung Solve for Tomorrow" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-4"><span class="gallery-fallback-num">03</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Award</p>
+          <h3>Samsung Solve for Tomorrow</h3>
+          <p>Award-winning project combining animation technology with real-world problem solving.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-04.jpg — Small — 800×500px -->
+          <img src="assets/drawings/tech-04.jpg" alt="Pipeline Tools" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-6"><span class="gallery-fallback-num">04</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Software</p>
+          <h3>Studio Pipeline Tools</h3>
+          <p>Python-based production management and asset-tracking tools for lean independent studios.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-05.jpg — Small — 800×500px -->
+          <img src="assets/drawings/tech-05.jpg" alt="AI Workflow Research" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-1"><span class="gallery-fallback-num">05</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Research</p>
+          <h3>AI Workflow Research</h3>
+          <p>Integrating generative AI tools into a traditional 2D animation production pipeline.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-06.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/tech-06.jpg" alt="Voice Manipulation Tool" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-3"><span class="gallery-fallback-num">06</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Audio Tool</p>
+          <h3>Voice Manipulation Device</h3>
+          <p>Hardware and software project exploring real-time voice manipulation for character performance.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-07.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/tech-07.jpg" alt="Motion Mathematics" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-7"><span class="gallery-fallback-num">07</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Education</p>
+          <h3>Motion Mathematics</h3>
+          <p>The relationship between calculus, easing curves, and animation timing — where maths meets motion.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <!-- ↓ REPLACE: tech-08.jpg — Large banner — 1600×685px -->
+          <img src="assets/drawings/tech-08.jpg" alt="Bruce Animation Studio — Vision" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-8"><span class="gallery-fallback-num">08</span></div>
+        </div>
+        <div class="gallery-corner"></div>
+        <div class="gallery-info">
+          <p class="gallery-cat-tag">Studio Vision</p>
+          <h3>Bruce Animation Studio — Concept</h3>
+          <p>The long-form vision: an independent 2D studio integrating AI and robotics — where art and technology become one.</p>
+        </div>
+      </div>
+
+    </div><!-- /gallery-technical -->
+
+    <div class="ornament">✦</div>
+    <footer>
+      <p>© 2025 Archie Bruce</p>
+      <span class="footer-rule">Sydney, Australia</span>
+      <p>All rights reserved</p>
+    </footer>
+
+  </div><!-- /gallery-view -->
+
+</div><!-- /page-portfolio -->
+
+
+<!-- ══════════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════ -->
 <div class="page" id="page-contact">
-
   <div class="contact-wrap">
-
     <div class="contact-left">
       <div>
         <p class="section-label" style="margin-bottom:1.5rem;">Contact</p>
         <h1>Let's<br>make<br><em>something.</em></h1>
         <p>Whether it's a collaboration, commission, or conversation about animation and technology — I'm always open to hearing from you.</p>
       </div>
-
       <div class="contact-details">
         <div class="contact-detail">
           <span class="detail-label">Location</span>
@@ -1004,7 +1240,7 @@
         </div>
         <div class="contact-detail">
           <span class="detail-label">Email</span>
-          <a href="mailto:archie@archiebruce.com" class="detail-value">archiejohnbruce@outlook.com</a>
+          <a href="mailto:archiejohnbruce@outlook.com" class="detail-value">archiejohnbruce@outlook.com</a>
         </div>
         <div class="contact-detail">
           <span class="detail-label">Available for</span>
@@ -1012,7 +1248,6 @@
         </div>
       </div>
     </div>
-
     <div class="contact-right">
       <p class="form-heading">Send a Message</p>
       <form onsubmit="handleSubmit(event)">
@@ -1050,33 +1285,61 @@
         </div>
       </form>
     </div>
-
   </div>
+</div><!-- /page-contact -->
 
-</div>
 
 <script>
-  // Cursor
+  // ── Cursor
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    cursor.style.top  = e.clientY + 'px';
   });
-  document.querySelectorAll('a, button, .portfolio-item, .discipline-card').forEach(el => {
+  document.querySelectorAll('a, button, .cat-card, .gallery-item, .discipline-card').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
 
-  // Page navigation
+  // ── Page navigation
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     document.getElementById('nav-' + name).classList.add('active');
     window.scrollTo({ top: 0 });
+    if (name === 'portfolio') showCategories();
   }
 
-  // Form submit
+  // ── Portfolio: back to categories
+  function showCategories() {
+    document.getElementById('categories-view').style.display = 'block';
+    document.getElementById('gallery-view').classList.remove('active');
+    window.scrollTo({ top: 0 });
+  }
+
+  // ── Portfolio: open a gallery
+  const galleryMeta = {
+    personal:   { eyebrow: 'Category 01', title: 'Personal Work' },
+    animations: { eyebrow: 'Category 02', title: 'Animations' },
+    characters: { eyebrow: 'Category 03', title: 'Character Designs' },
+    technical:  { eyebrow: 'Category 04', title: 'Technical Projects' },
+  };
+
+  function showGallery(cat) {
+    document.getElementById('categories-view').style.display = 'none';
+    const gv = document.getElementById('gallery-view');
+    gv.classList.add('active');
+    document.getElementById('gallery-eyebrow').textContent = galleryMeta[cat].eyebrow;
+    document.getElementById('gallery-title').textContent   = galleryMeta[cat].title;
+    ['personal','animations','characters','technical'].forEach(id => {
+      document.getElementById('gallery-' + id).style.display = 'none';
+    });
+    document.getElementById('gallery-' + cat).style.display = 'grid';
+    window.scrollTo({ top: 0 });
+  }
+
+  // ── Contact form
   function handleSubmit(e) {
     e.preventDefault();
     const status = document.getElementById('form-status');
@@ -1086,6 +1349,5 @@
     setTimeout(() => status.textContent = '', 4000);
   }
 </script>
-
 </body>
 </html>
