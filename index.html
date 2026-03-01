@@ -346,20 +346,20 @@
   .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(26,22,18,.12); }
 
   /* Asymmetric grid rhythm */
-  .gallery-item:nth-child(1) { grid-column: span 8; }
+  .gallery-item:nth-child(1) { grid-column: span 6; }
   .gallery-item:nth-child(2) { grid-column: span 4; }
   .gallery-item:nth-child(3) { grid-column: span 4; }
   .gallery-item:nth-child(4) { grid-column: span 4; }
   .gallery-item:nth-child(5) { grid-column: span 4; }
   .gallery-item:nth-child(6) { grid-column: span 6; }
   .gallery-item:nth-child(7) { grid-column: span 6; }
-  .gallery-item:nth-child(8) { grid-column: span 12; }
+  .gallery-item:nth-child(8) { grid-column: span 6; }
 
   .gallery-thumb {
     aspect-ratio: 16/10; overflow: hidden; position: relative;
   }
   .gallery-item:nth-child(1) .gallery-thumb,
-  .gallery-item:nth-child(8) .gallery-thumb { aspect-ratio: 3/1; }
+  .gallery-item:nth-child(8) .gallery-thumb { aspect-ratio: 16/9; }
 
   /*
   ╔══════════════════════════════════════════════════════════════╗
@@ -575,7 +575,7 @@
     <div class="about-body">
       <h2>Craft, code, and the pursuit of the extraordinary frame.</h2>
       <p>I'm Archie Bruce — an animator and computing student at the University of Sydney. My work lives at the intersection of hand-drawn tradition and contemporary technology: the warmth of pencil-on-paper and the precision of code.</p>
-      <p>Inspired by the discipline of Disney's Nine Old Men and the raw creative spirit of Robert Henri's <em>Art Spirit</em>, I believe every frame should be made with intention — whether it's drawn by hand or rendered by machine.</p>
+      <p>I believe every frame should be made with intention — whether it's drawn by hand or rendered by machine.</p>
     </div>
   </section>
 
@@ -583,7 +583,7 @@
     <div class="discipline-card">
       <span class="discipline-num">01</span>
       <h3>2D Animation</h3>
-      <p>Traditional frame-by-frame and cut-out animation grounded in classical principles — squash, stretch, timing, and weight — applied with a contemporary eye.</p>
+      <p>Traditional frame-by-frame animation grounded in classical principles — squash, stretch, timing, and weight </p>
     </div>
     <div class="discipline-card">
       <span class="discipline-num">02</span>
@@ -593,7 +593,7 @@
     <div class="discipline-card">
       <span class="discipline-num">03</span>
       <h3>Direction &amp; Story</h3>
-      <p>Visual storytelling with a director's eye — developing concepts from initial sketch through to final composition with clarity and emotional intent.</p>
+      <p>Visual storytelling right through developing concepts from initial sketch through to final composition with clarity and emotional intent.</p>
     </div>
   </section>
 
@@ -980,15 +980,15 @@
 
       <div class="gallery-item">
         <div class="gallery-thumb">
-          <!-- ↓ REPLACE: char-01.jpg — Large banner — 1600×685px -->
-          <img src="assets/drawings/bird1.jpg" alt="Lead Character — Full Model Sheet" class="gallery-img" onerror="this.style.display='none';">
-          <div class="gallery-thumb-fallback gthumb-3"><span class="gallery-fallback-num">01</span></div>
+          <!-- ↓ REPLACE: char-02.jpg — Small — 800×500px -->
+          <img src="assets/drawings/bird1.jpg" alt="Expression Library" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-4"><span class="gallery-fallback-num">02</span></div>
         </div>
         <div class="gallery-corner"></div>
         <div class="gallery-info">
           <p class="gallery-cat-tag">Character Design</p>
-          <h3>Lead Character — Full Model Sheet</h3>
-          <p>Complete turnaround with front, side, and back views, plus proportion guides and size chart.</p>
+          <h3>Expression Library</h3>
+          <p>A full range of facial expressions — neutral, happy, sad, angry, surprised — mapped across the character's face.</p>
         </div>
       </div>
 
@@ -1078,17 +1078,20 @@
 
       <div class="gallery-item">
         <div class="gallery-thumb">
-          <!-- ↓ REPLACE: char-08.jpg — Large banner — 1600×685px -->
-          <img src="assets/drawings/dark.jpg" alt="Early Development Sketches" class="gallery-img" onerror="this.style.display='none';">
-          <div class="gallery-thumb-fallback gthumb-8"><span class="gallery-fallback-num">08</span></div>
+          <!-- ↓ REPLACE: char-07.jpg — Medium — 1200×750px -->
+          <img src="assets/drawings/dark.jpg" alt="Animal Character" class="gallery-img" onerror="this.style.display='none';">
+          <div class="gallery-thumb-fallback gthumb-7"><span class="gallery-fallback-num">07</span></div>
         </div>
         <div class="gallery-corner"></div>
         <div class="gallery-info">
           <p class="gallery-cat-tag">Character Design</p>
-          <h3>Early Development Sketches</h3>
-          <p>The raw exploration stage — dozens of rough ideas before refining down to the final design.</p>
+          <h3>Animal Character</h3>
+          <p>Anthropomorphic animal character design, balancing realistic anatomy with appealing stylisation.</p>
         </div>
       </div>
+
+
+      
 
     </div><!-- /gallery-characters -->
 
